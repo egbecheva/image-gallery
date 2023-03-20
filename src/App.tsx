@@ -1,14 +1,19 @@
 import React from 'react';
 import './App.css';
 import NavBar from './NavBar';
-import LikedPosts from './LikedPosts';
+import ImagesGallery from './ImagesGallery';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className='App'>
-      <NavBar />
-      <LikedPosts />
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className='App'>
+        <NavBar />
+        <ImagesGallery />
+      </div>
+    </QueryClientProvider>
   );
 }
 
