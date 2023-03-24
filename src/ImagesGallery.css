@@ -1,12 +1,17 @@
 .masonry{
   column-count: 4;
+  
+}
+
+.full-screen{
+  column-count: 1;
 }
 
 img { /* Masonry bricks or child elements */
   background-color: #fff;
   display: inline-block;
   padding: 7px;
-  width:100%
+  width:100%;
   }
 
 /* Masonry on medium-sized screens */
@@ -28,4 +33,14 @@ img { /* Masonry bricks or child elements */
   .masonry {
     column-count: 1;
   }
+}
+
+.imageCard{
+  padding-right:7px
+
+
+}
+.full-screen{
+  padding:10px; 
+  background-color: red;
 }
