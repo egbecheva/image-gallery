@@ -65,7 +65,7 @@ function ImagesGallery() {
     if (isSelectedImage && selected === alt) return true;
   };
 
-  const isImageBlurred = (alt: string, selected: string | undefined) => {
+  const isImageInvisible = (alt: string, selected: string | undefined) => {
     if (isSelectedImage && selected !== alt) {
       return true;
     }
@@ -74,7 +74,11 @@ function ImagesGallery() {
   console.log('rendered');
 
   return (
-    <div className='masonry'>
+    <div
+      className={
+        isSelectedImage ? `one-column-masonry` : `multi-column-masonry`
+      }
+    >
       {isSuccess &&
         data.map(
           ({
@@ -94,16 +98,28 @@ function ImagesGallery() {
                   className={
                     isImageClicked(alt_description, imageAltText)
                       ? 'full-screen'
-                      : isImageBlurred(alt_description, imageAltText)
-                      ? 'blurred'
+                      : isImageInvisible(alt_description, imageAltText)
+                      ? 'invisible'
                       : 'item'
                   }
                   key={uuidv4()}
                   alt={alt_description}
-                  src={imageAltText === alt_description ? urls.raw : urls.thumb}
+                  src={
+                    imageAltText === alt_description ? urls.regular : urls.thumb
+                  }
                 />
 
-                <div>{alt_description}</div>
+                <div
+                  className={
+                    isImageClicked(alt_description, imageAltText)
+                      ? 'full-screen'
+                      : isImageInvisible(alt_description, imageAltText)
+                      ? 'invisible'
+                      : 'item'
+                  }
+                >
+                  {alt_description}
+                </div>
               </div>
             </div>
           )

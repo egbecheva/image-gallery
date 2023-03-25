@@ -1,10 +1,17 @@
-.masonry{
+.multi-column-masonry{
   column-count: 4;
   
 }
 
+.one-column-masonry {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .full-screen{
-  column-count: 1;
+ 
 }
 
 img { /* Masonry bricks or child elements */
@@ -36,11 +43,20 @@ img { /* Masonry bricks or child elements */
 }
 
 .imageCard{
-  padding-right:7px
+  display:flex;
+  padding-right:7px;
+  flex-direction: column;
+  
 
 
 }
 .full-screen{
-  padding:10px; 
-  background-color: red;
+   /* Full height */
+  
+
+  
+}
+
+.invisible{
+  display:none
 }
