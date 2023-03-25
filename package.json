@@ -45,6 +45,7 @@
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
     "@types/uuid": "^9.0.1",
-    "dotenv-webpack": "^8.0.1"
+    "dotenv-webpack": "^8.0.1",
+    "webpack": "^5.76.3"
   }
 }
