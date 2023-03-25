@@ -71,7 +71,18 @@ function ImagesGallery() {
     }
   };
 
-  console.log('rendered');
+  const handleImagePreview = (
+    altData: string,
+    selectedImageAlt: string
+  ): string => {
+    if (isImageClicked(altData, selectedImageAlt)) {
+      return 'full-screen';
+    }
+    if (isImageInvisible(altData, selectedImageAlt)) {
+      return 'invisible';
+    }
+    return 'item';
+  };
 
   return (
     <div
@@ -88,20 +99,31 @@ function ImagesGallery() {
             alt_description: string;
             urls: Urls;
           }) => (
-            <div>
-              <div className='imageCard'>
+            <div className='baba'>
+              <div
+                className={
+                  handleImagePreview(alt_description, imageAltText) +
+                  '-imageCard'
+                }
+              >
+                <div
+                  className={
+                    handleImagePreview(alt_description, imageAltText) +
+                    ' back-button'
+                  }
+                  style={{
+                    fontSize: '40px',
+                  }}
+                  onClick={() => setIsSelectedImage(false)}
+                >
+                  &#8592;
+                </div>
                 <img
                   onClick={() => {
                     setImageAltText(alt_description);
                     setIsSelectedImage(true);
                   }}
-                  className={
-                    isImageClicked(alt_description, imageAltText)
-                      ? 'full-screen'
-                      : isImageInvisible(alt_description, imageAltText)
-                      ? 'invisible'
-                      : 'item'
-                  }
+                  className={handleImagePreview(alt_description, imageAltText)}
                   key={uuidv4()}
                   alt={alt_description}
                   src={
@@ -110,13 +132,7 @@ function ImagesGallery() {
                 />
 
                 <div
-                  className={
-                    isImageClicked(alt_description, imageAltText)
-                      ? 'full-screen'
-                      : isImageInvisible(alt_description, imageAltText)
-                      ? 'invisible'
-                      : 'item'
-                  }
+                  className={handleImagePreview(alt_description, imageAltText)}
                 >
                   {alt_description}
                 </div>

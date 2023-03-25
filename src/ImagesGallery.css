@@ -46,17 +46,32 @@ img { /* Masonry bricks or child elements */
   display:flex;
   padding-right:7px;
   flex-direction: column;
-  
-
-
 }
-.full-screen{
-   /* Full height */
-  
 
-  
+
+button.item{
+  display:none
+}
+
+.full-screen.back-button{
+color:red;
+cursor: pointer;
+justify-content: center;
+
 }
 
 .invisible{
   display:none
 }
+
+.full-screen-imageCard {
+  display: flex;
+  flex-direction: row;
+}
+
+div.item.back-button {
+  display: none;
+}
+
+
+
