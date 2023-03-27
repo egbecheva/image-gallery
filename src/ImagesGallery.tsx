@@ -99,42 +99,55 @@ function ImagesGallery() {
             alt_description: string;
             urls: Urls;
           }) => (
-            <div className='baba'>
+            <div>
               <div
                 className={
                   handleImagePreview(alt_description, imageAltText) +
                   '-imageCard'
                 }
               >
-                <div
-                  className={
-                    handleImagePreview(alt_description, imageAltText) +
-                    ' back-button'
-                  }
-                  style={{
-                    fontSize: '40px',
-                  }}
-                  onClick={() => setIsSelectedImage(false)}
-                >
-                  &#8592;
+                <div className='button-container'>
+                  <div
+                    className={
+                      handleImagePreview(alt_description, imageAltText) +
+                      ' back-button'
+                    }
+                    style={{
+                      fontSize: '40px',
+                    }}
+                    onClick={() => setIsSelectedImage(false)}
+                  >
+                    &#8592;
+                  </div>
                 </div>
-                <img
-                  onClick={() => {
-                    setImageAltText(alt_description);
-                    setIsSelectedImage(true);
-                  }}
-                  className={handleImagePreview(alt_description, imageAltText)}
-                  key={uuidv4()}
-                  alt={alt_description}
-                  src={
-                    imageAltText === alt_description ? urls.regular : urls.thumb
-                  }
-                />
+                <div className='image-container'>
+                  <img
+                    onClick={() => {
+                      setImageAltText(alt_description);
+                      setIsSelectedImage(true);
+                    }}
+                    className={handleImagePreview(
+                      alt_description,
+                      imageAltText
+                    )}
+                    key={alt_description + uuidv4()}
+                    alt={alt_description}
+                    src={
+                      imageAltText === alt_description
+                        ? urls.small
+                        : urls.small_s3
+                    }
+                  />
 
-                <div
-                  className={handleImagePreview(alt_description, imageAltText)}
-                >
-                  {alt_description}
+                  <div
+                    className={handleImagePreview(
+                      alt_description,
+                      imageAltText
+                    )}
+                  >
+                    {alt_description?.charAt(0).toUpperCase() +
+                      alt_description?.slice(1)}
+                  </div>
                 </div>
               </div>
             </div>
