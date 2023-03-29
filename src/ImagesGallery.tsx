@@ -105,6 +105,8 @@ function ImagesGallery() {
                   handleImagePreview(alt_description, imageAltText) +
                   '-imageCard'
                 }
+                role='img'
+                aria-label='Image Card'
               >
                 <div className='button-container'>
                   <div
