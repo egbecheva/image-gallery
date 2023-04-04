@@ -12,7 +12,6 @@ const fetchImages = async (currentPage) => {
   } catch (e) {
     console.log('Error', e);
   }
-  return images;
 };
 
 const useImageApi = (currentPage) => {
