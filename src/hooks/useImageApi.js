@@ -2,16 +2,17 @@ import { useQuery } from '@tanstack/react-query';
 
 const PER_PAGE = 30;
 const apiKey = process.env.REACT_APP_API_KEY;
-
+let images;
 const fetchImages = async (currentPage) => {
   let URL = `https://api.unsplash.com/photos/?client_id=${apiKey}&page=${currentPage}&per_page=${PER_PAGE}`;
   try {
     let response = await fetch(URL);
-    let images = await response.json();
+    images = await response.json();
     return images;
   } catch (e) {
     console.log('Error', e);
   }
+  return images;
 };
 
 const useImageApi = (currentPage) => {
