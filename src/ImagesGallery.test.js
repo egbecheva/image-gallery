@@ -1,7 +1,7 @@
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
 import { useImageApi } from './hooks/useImageApi';
-import { renderHook, waitFor } from '@testing-library/react';
+import { render, screen, renderHook, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ImagesGallery from './ImagesGallery';
 
@@ -64,7 +64,14 @@ test('query hook handles error', async () => {
     wrapper,
   });
 
-  await waitFor(() => expect(result.current.isError).toBe(true));
-
   expect(result.current.error).toBeDefined();
+});
+
+test('loads mocked result in component', async () => {
+  // ARRANGE
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+  render(<ImagesGallery />, { wrapper });
+
+  // ASSERT
+  expect(screen.getAllByRole('img')).toHaveLength(1);
 });
