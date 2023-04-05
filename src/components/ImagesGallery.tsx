@@ -48,6 +48,8 @@ function ImagesGallery() {
 
   return (
     <div
+      test-id='image-gallery-container'
+      key={uuidv4()}
       className={
         isSelectedImage ? `one-column-masonry` : `multi-column-masonry`
       }
@@ -63,6 +65,7 @@ function ImagesGallery() {
           }) => (
             <div>
               <div
+                data-testid='image-card'
                 className={
                   handleImagePreview(alt_description, imageAltText) +
                   '-imageCard'
@@ -93,7 +96,7 @@ function ImagesGallery() {
                       imageAltText
                     )}
                     key={alt_description + uuidv4()}
-                    alt={alt_description}
+                    alt={alt_description ? alt_description : ''}
                     src={
                       imageAltText === alt_description
                         ? urls.small
