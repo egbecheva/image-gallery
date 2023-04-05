@@ -38,9 +38,9 @@ test('clicking on an image should trigger setIsSelectedImage', async () => {
   render(<ImagesGallery />, { wrapper });
   await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-  const images = screen.getAllByRole('img');
-  const firstImage = images[0];
+  const firstImage = screen.getByTestId('baba');
   expect(firstImage).toHaveClass('item');
   fireEvent.click(firstImage);
-  // expect(firstImage).toHaveClass('full-screen');
+
+  expect(screen.getByTestId('baba')).toHaveClass('full-screen');
 });

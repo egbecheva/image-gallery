@@ -17,33 +17,14 @@ function ImagesGallery() {
     small_s3: string;
   };
 
-  let [isSelectedImage, setIsSelectedImage] = useState<boolean>(false);
-  let [imageAltText, setImageAltText] = useState<string>('');
+  let [isSelectedImage, setSelectedImage] = useState<string>('');
   let [currentPage, setCurrentPage] = useState<number>(1);
 
   const { data, isSuccess } = useImageApi(currentPage);
 
-  const isImageClicked = (alt: string, selected: string | undefined) => {
-    if (isSelectedImage && selected === alt) return true;
-  };
-
-  const isImageInvisible = (alt: string, selected: string | undefined) => {
-    if (isSelectedImage && selected !== alt) {
-      return true;
-    }
-  };
-
-  const handleImagePreview = (
-    altData: string,
-    selectedImageAlt: string
-  ): string => {
-    if (isImageClicked(altData, selectedImageAlt)) {
-      return 'full-screen';
-    }
-    if (isImageInvisible(altData, selectedImageAlt)) {
-      return 'invisible';
-    }
-    return 'item';
+  const handleClose = (e: any) => {
+    e.stopPropagation();
+    setSelectedImage('');
   };
 
   return (
@@ -63,53 +44,43 @@ function ImagesGallery() {
             alt_description: string;
             urls: Urls;
           }) => (
-            <div>
-              <div
-                data-testid='image-card'
-                className={
-                  handleImagePreview(alt_description, imageAltText) +
-                  '-imageCard'
-                }
-              >
+            <div
+              onClick={() => {
+                setSelectedImage(urls.small);
+              }}
+              data-testid='baba'
+              className={
+                !isSelectedImage
+                  ? 'item'
+                  : isSelectedImage === urls.small
+                  ? 'full-screen'
+                  : 'invisible'
+              }
+            >
+              <div data-testid='image-card' className='image-card'>
                 <div className='button-container'>
                   <div
-                    className={
-                      handleImagePreview(alt_description, imageAltText) +
-                      ' back-button'
-                    }
+                    className='back-button'
                     style={{
                       fontSize: '40px',
                     }}
-                    onClick={() => setIsSelectedImage(false)}
+                    onClick={handleClose}
                   >
                     &#8592;
                   </div>
                 </div>
                 <div className='image-container'>
                   <img
-                    onClick={() => {
-                      setImageAltText(alt_description);
-                      setIsSelectedImage(true);
-                    }}
-                    className={handleImagePreview(
-                      alt_description,
-                      imageAltText
-                    )}
                     key={alt_description + uuidv4()}
                     alt={alt_description ? alt_description : ''}
                     src={
-                      imageAltText === alt_description
+                      isSelectedImage === alt_description
                         ? urls.small
                         : urls.small_s3
                     }
                   />
 
-                  <div
-                    className={handleImagePreview(
-                      alt_description,
-                      imageAltText
-                    )}
-                  >
+                  <div className='alt-text'>
                     {alt_description?.charAt(0).toUpperCase() +
                       alt_description?.slice(1)}
                   </div>
