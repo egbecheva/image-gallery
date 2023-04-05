@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import './ImagesGallery.css';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
-import { useImageApi } from './hooks/useImageApi';
+import { useImageApi } from '../hooks/useImageApi';
 
 function ImagesGallery() {
   const queryClient = useQueryClient();
