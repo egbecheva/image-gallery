@@ -10,7 +10,7 @@ const fetchImages = async (currentPage) => {
     images = await response.json();
     return images;
   } catch (e) {
-    console.log('Error!!!', e);
+    console.log(new Error(e));
   }
 };
 

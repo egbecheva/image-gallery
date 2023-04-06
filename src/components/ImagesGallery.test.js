@@ -38,9 +38,25 @@ test('clicking on an image should trigger setIsSelectedImage', async () => {
   render(<ImagesGallery />, { wrapper });
   await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
-  const firstImage = screen.getByTestId('baba');
+  const firstImage = await screen.findByTestId('image-card-container');
   expect(firstImage).toHaveClass('item');
   fireEvent.click(firstImage);
 
-  expect(screen.getByTestId('baba')).toHaveClass('full-screen');
+  expect(await screen.findByTestId('image-card-container')).toHaveClass(
+    'full-screen'
+  );
+});
+
+test('clicking on a button should show all images', async () => {
+  render(<ImagesGallery />, { wrapper });
+  await waitFor(() => expect(result.current.isSuccess).toBe(true));
+
+  const firstImage = await screen.findByTestId('image-card-container');
+  fireEvent.click(firstImage);
+  const backButton = screen.getByTestId('back-button');
+  fireEvent.click(backButton);
+
+  expect(await screen.findByTestId('image-gallery-container')).toHaveClass(
+    'multi-column-masonry'
+  );
 });

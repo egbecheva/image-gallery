@@ -17,7 +17,7 @@ function ImagesGallery() {
     small_s3: string;
   };
 
-  let [isSelectedImage, setSelectedImage] = useState<string>('');
+  let [selectedImage, setSelectedImage] = useState<string>('');
   let [currentPage, setCurrentPage] = useState<number>(1);
 
   const { data, isSuccess } = useImageApi(currentPage);
@@ -29,11 +29,9 @@ function ImagesGallery() {
 
   return (
     <div
-      test-id='image-gallery-container'
+      data-testid='image-gallery-container'
       key={uuidv4()}
-      className={
-        isSelectedImage ? `one-column-masonry` : `multi-column-masonry`
-      }
+      className={selectedImage ? `one-column-masonry` : `multi-column-masonry`}
     >
       {isSuccess &&
         data.map(
@@ -48,11 +46,11 @@ function ImagesGallery() {
               onClick={() => {
                 setSelectedImage(urls.small);
               }}
-              data-testid='baba'
+              data-testid='image-card-container'
               className={
-                !isSelectedImage
+                !selectedImage
                   ? 'item'
-                  : isSelectedImage === urls.small
+                  : selectedImage === urls.small
                   ? 'full-screen'
                   : 'invisible'
               }
@@ -61,6 +59,7 @@ function ImagesGallery() {
                 <div className='button-container'>
                   <div
                     className='back-button'
+                    data-testid='back-button'
                     style={{
                       fontSize: '40px',
                     }}
@@ -74,7 +73,7 @@ function ImagesGallery() {
                     key={alt_description + uuidv4()}
                     alt={alt_description ? alt_description : ''}
                     src={
-                      isSelectedImage === alt_description
+                      selectedImage === alt_description
                         ? urls.small
                         : urls.small_s3
                     }

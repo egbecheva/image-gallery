@@ -12,15 +12,15 @@ const wrapper = ({ children }) => (
 
 const { result } = renderHook(() => useImageApi(1), { wrapper });
 
-test('query hook renders data successfully', async () => {
+it('query hook renders data successfully', async () => {
   await waitFor(() => expect(result.current.isSuccess).toBe(true));
 });
 
-test('query hook renders 30 results per page', async () => {
+it('query hook renders 30 results per page', async () => {
   await waitFor(() => expect(result.current.data).toHaveLength(30));
 });
 
-test('query hook handles error', async () => {
+it('query hook handles error', async () => {
   server.use(
     rest.get('*', (req, res, ctx) => {
       return res(ctx.status(500));
@@ -32,4 +32,24 @@ test('query hook handles error', async () => {
   });
   await waitFor(() => expect(result.current.isError).toBe(true));
   expect(result.current.error).toBeDefined();
+});
+
+describe('useImageApi', () => {
+  it('logs an error message when fetchImages throws an error', async () => {
+    server.use(
+      rest.get('*', (req, res, ctx) => {
+        return res(ctx.status(500));
+      })
+    );
+    renderHook(() => useImageApi(1), {
+      wrapper,
+    });
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const error = 'SyntaxError: Unexpected end of JSON input';
+    await waitFor(() => {
+      expect(consoleSpy).toHaveBeenCalledWith(new Error(error));
+    });
+
+    consoleSpy.mockRestore();
+  });
 });
