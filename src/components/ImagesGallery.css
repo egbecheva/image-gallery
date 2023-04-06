@@ -11,7 +11,7 @@
 
 img { /* Masonry bricks or child elements */
   background-color: #fff;
-  display: inline-block;
+  display: block;
   padding: 7px;
   width:100%;
   }
@@ -61,6 +61,36 @@ justify-content: center;
 .item .back-button {
   display: none;
 }
+
+.image-container{
+  position:relative;
+  width:100%;
+  overflow: hidden;
+}
+
+.alt-text{
+  opacity:0;
+  color:white;
+  position:absolute;
+  top:20px;
+  left:25px;
+}
+
+.image-container:hover .alt-text{
+  z-index:100;
+  color:white;
+  position:absolute;
+  top:20px;
+  left:25px;
+  opacity:1;
+  transition: 0.3s;
+  margin:5px;
+}
+
+.image-container:hover {
+  background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(26,26,29,1) 19%, rgba(0,212,255,0) 100%);
+}
+
 
 
 

@@ -1,7 +1,22 @@
 a {
   text-decoration: none;
+  color:lightslategray
 }
 
-span {
-  margin-right: 10px
+button {
+  margin-right: 30px;
+  font-weight:bold;
+  font-size: medium;
+  border:none;
+  background-color:transparent;
+  padding:10px;
+}
+
+button:hover{
+  background-color:#efefef;
+  border-radius:10px;
+}
+
+nav {
+  padding:30px
 }

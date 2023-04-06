@@ -4,15 +4,15 @@ import './NavBar.css';
 function NavBar() {
   return (
     <nav>
-      <span>
+      <button>
         <a href='/'>1 - 99 likes</a>
-      </span>
-      <span>
+      </button>
+      <button>
         <a href='/'>100 - 500 likes</a>
-      </span>
-      <span>
+      </button>
+      <button>
         <a href='/'>500+ likes</a>
-      </span>
+      </button>
     </nav>
   );
 }

@@ -80,8 +80,10 @@ function ImagesGallery() {
                   />
 
                   <div className='alt-text'>
-                    {alt_description?.charAt(0).toUpperCase() +
-                      alt_description?.slice(1)}
+                    {typeof alt_description === 'object'
+                      ? null
+                      : alt_description?.charAt(0).toUpperCase() +
+                        alt_description?.slice(1)}
                   </div>
                 </div>
               </div>
