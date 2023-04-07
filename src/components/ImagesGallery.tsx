@@ -31,7 +31,11 @@ function ImagesGallery() {
     <div
       data-testid='image-gallery-container'
       key={uuidv4()}
-      className={selectedImage ? `one-column-masonry` : `multi-column-masonry`}
+      className={
+        selectedImage
+          ? `one-column-masonry container`
+          : `multi-column-masonry container`
+      }
     >
       {isSuccess &&
         data.map(
@@ -69,16 +73,17 @@ function ImagesGallery() {
                   </div>
                 </div>
                 <div className='image-container'>
-                  <img
-                    key={alt_description + uuidv4()}
-                    alt={alt_description ? alt_description : ''}
-                    src={
-                      selectedImage === alt_description
-                        ? urls.small
-                        : urls.small_s3
-                    }
-                  />
-
+                  <div id='image-wrapper'>
+                    <img
+                      key={alt_description + uuidv4()}
+                      alt={alt_description ? alt_description : ''}
+                      src={
+                        selectedImage === alt_description
+                          ? urls.small
+                          : urls.small_s3
+                      }
+                    />
+                  </div>
                   <div className='alt-text'>
                     {typeof alt_description === 'object'
                       ? null

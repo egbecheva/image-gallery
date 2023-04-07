@@ -1,6 +1,10 @@
 .multi-column-masonry{
   column-count: 4;
-  
+  column-gap:15px;
+}
+
+.container{
+  margin:20px;
 }
 
 .one-column-masonry {
@@ -8,13 +12,6 @@
  justify-content: center;
 }
 
-
-img { /* Masonry bricks or child elements */
-  background-color: #fff;
-  display: block;
-  padding: 7px;
-  width:100%;
-  }
 
 /* Masonry on medium-sized screens */
 @media only screen and (max-width: 1023px) and (min-width: 768px) {
@@ -39,7 +36,6 @@ img { /* Masonry bricks or child elements */
 
 .image-card {
   display:flex;
-  padding-right:7px;
 }
 
 .full-screen .back-button {
@@ -62,11 +58,6 @@ justify-content: center;
   display: none;
 }
 
-.image-container{
-  position:relative;
-  width:100%;
-  overflow: hidden;
-}
 
 .alt-text{
   opacity:0;
@@ -74,24 +65,40 @@ justify-content: center;
   position:absolute;
   top:20px;
   left:25px;
+  text-align: center;
 }
 
 .image-container:hover .alt-text{
-  z-index:100;
   color:white;
   position:absolute;
   top:20px;
   left:25px;
   opacity:1;
-  transition: 0.3s;
-  margin:5px;
+  transition: 0.2s;
 }
 
-.image-container:hover {
-  background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(26,26,29,1) 19%, rgba(0,212,255,0) 100%);
+.image-container{
+  position:relative;
+  display: inline-block;
+  width:100%;
+  overflow: hidden;
 }
 
 
+img { /* Masonry bricks or child elements */
+  background-color: #fff;
+  width:100%;
+  margin-bottom: 12px;;
+}
 
+ #image-wrapper:hover{
+  background: linear-gradient(180deg, #000 0%, #fff 100%);
+  transition: 0.2s;
 
+}
 
+#image-wrapper:hover img{
+  opacity:0.6;
+  transition: 0.2s;
+
+}
