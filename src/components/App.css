@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+.supabase-auth-ui_ui-label{
+  text-align:start;
+}

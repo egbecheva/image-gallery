@@ -31,15 +31,20 @@ function App() {
     return () => subscription.unsubscribe();
   }, []);
 
-  const {
-    data: { subscription },
-  } = supabase.auth.onAuthStateChange((_event, session) => {
-    //@ts-ignore
-    setSession(session);
-  });
-
   if (!session) {
-    return <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />;
+    return (
+      <div className='container'>
+        <div style={{ textAlign: 'center' }} className='row'>
+          <div style={{ display: 'inline-block' }} className='col-12'>
+            <Auth
+              supabaseClient={supabase}
+              appearance={{ theme: ThemeSupa }}
+              providers={['github']}
+            />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 const PER_PAGE = 30;
-const apiKey = process.env.REACT_APP_API_KEY;
+const apiKey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
+
 let images;
 const fetchImages = async (currentPage) => {
   let URL = `https://api.unsplash.com/photos/?client_id=${apiKey}&page=${currentPage}&per_page=${PER_PAGE}`;
