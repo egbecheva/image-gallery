@@ -47,6 +47,7 @@ function ImagesGallery() {
             urls: Urls;
           }) => (
             <div
+              key={alt_description}
               onClick={() => {
                 setSelectedImage(urls.small);
               }}

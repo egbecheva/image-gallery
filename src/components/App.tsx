@@ -28,6 +28,7 @@ function App() {
       //@ts-ignore
       setSession(session);
     });
+
     return () => subscription.unsubscribe();
   }, []);
 
@@ -40,6 +41,19 @@ function App() {
               supabaseClient={supabase}
               appearance={{ theme: ThemeSupa }}
               providers={['github']}
+              //@ts-ignore
+              onAuthSuccess={async (event, session) => {
+                const { user } = session;
+                const { data, error } = await supabase
+                  .from('users')
+                  .update({ first_name: 'John', age: 27 })
+                  .eq('id', user.id);
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log(data);
+                }
+              }}
             />
           </div>
         </div>
@@ -51,6 +65,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className='App'>
         <NavBar />
+        <button onClick={() => supabase.auth.signOut()}>Sign out</button>
         <ImagesGallery />
       </div>
     </QueryClientProvider>
