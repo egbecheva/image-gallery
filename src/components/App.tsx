@@ -15,11 +15,18 @@ const supabase = createClient(
 
 function App() {
   const [session, setSession] = useState(null);
+  const [userEmail, setUserEmail] = useState<string | undefined>('');
+
+  const handleSignOut = () => {
+    supabase.auth.signOut();
+    setSession(null);
+  };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       //@ts-ignore
       setSession(session);
+      setUserEmail(session?.user.email);
     });
 
     const {
@@ -28,7 +35,6 @@ function App() {
       //@ts-ignore
       setSession(session);
     });
-
     return () => subscription.unsubscribe();
   }, []);
 
@@ -46,7 +52,7 @@ function App() {
                 const { user } = session;
                 const { data, error } = await supabase
                   .from('users')
-                  .update({ first_name: 'John', age: 27 })
+                  .update({ full_name: user.user_metadata.full_name })
                   .eq('id', user.id);
                 if (error) {
                   console.log(error);
@@ -64,8 +70,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className='App'>
-        <NavBar />
-        <button onClick={() => supabase.auth.signOut()}>Sign out</button>
+        <NavBar
+          handleSignOut={handleSignOut}
+          full_name={userEmail ? userEmail : ''}
+        />
         <ImagesGallery />
       </div>
     </QueryClientProvider>

@@ -1,7 +1,12 @@
 import React from 'react';
 import './NavBar.css';
 
-function NavBar() {
+type NavBarProps = {
+  full_name: string;
+  handleSignOut: () => void;
+};
+
+function NavBar({ full_name, handleSignOut }: NavBarProps) {
   return (
     <nav>
       <div>
@@ -14,6 +19,10 @@ function NavBar() {
         <button>
           <a href='/'>500+ likes</a>
         </button>
+      </div>
+      <div>
+        <span>{full_name && full_name}</span>
+        <button onClick={handleSignOut}>Sign out</button>
       </div>
     </nav>
   );
