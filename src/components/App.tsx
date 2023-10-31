@@ -6,8 +6,10 @@ import './App.css';
 import NavBar from './NavBar';
 import ImagesGallery from './ImagesGallery';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
+
 const supabase = createClient(
   'https://farwxdneeuusnodhhuvb.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhcnd4ZG5lZXV1c25vZGhodXZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODA2Nzc3MDIsImV4cCI6MTk5NjI1MzcwMn0.B-crC-fdDpSBog7sZsbyfobs0HaRhJ8xN91YSRRx1oI'
@@ -70,6 +72,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className='App'>
+        <ReactQueryDevtools />
         <NavBar
           handleSignOut={handleSignOut}
           full_name={userEmail ? userEmail : ''}

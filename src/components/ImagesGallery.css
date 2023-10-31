@@ -28,7 +28,7 @@
 }
 
 /* Masonry on small screens */
-@media only screen and (max-width: 539px) and (min-width: 370px) {
+@media only screen and (max-width: 539px)  {
   .masonry {
     column-count: 1;
   }
@@ -94,6 +94,7 @@ img { /* Masonry bricks or child elements */
  #image-wrapper:hover{
   background: linear-gradient(180deg, #000 0%, #fff 100%);
   transition: 0.2s;
+  cursor:pointer;
 
 }
 

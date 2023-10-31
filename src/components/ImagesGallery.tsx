@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import './ImagesGallery.css';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { useImageApi } from '../hooks/useImageApi';
 
 function ImagesGallery() {
-  const queryClient = useQueryClient();
-
   type Urls = {
     raw: string;
     full: string;
@@ -17,10 +14,45 @@ function ImagesGallery() {
     small_s3: string;
   };
 
-  let [selectedImage, setSelectedImage] = useState<string>('');
-  let [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const { data, isSuccess, isLoading } = useImageApi(currentPage);
+  const [selectedImage, setSelectedImage] = useState<string>('');
+  const [images, setImages] = useState(data);
 
-  const { data, isSuccess } = useImageApi(currentPage);
+  console.log('images', images && images);
+
+  let containerRef = useRef(null);
+  let imageRef = useRef(null);
+
+  console.log(data);
+
+  let options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 1.0,
+  };
+
+  useEffect(() => {
+    const callBack = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        entry.isIntersecting && setCurrentPage((i) => i + 1);
+        setImages([...images, ...data]);
+      });
+    };
+    const observer = new IntersectionObserver(callBack, options);
+
+    const observable = imageRef.current;
+
+    if (observable) {
+      observer.observe(observable);
+    }
+
+    return () => {
+      if (observable) {
+        observer.unobserve(observable);
+      }
+    };
+  }, [options]);
 
   const handleClose = (e: any) => {
     e.stopPropagation();
@@ -29,14 +61,14 @@ function ImagesGallery() {
 
   return (
     <div
+      ref={containerRef}
       data-testid='image-gallery-container'
       key={uuidv4()}
-      className={
-        selectedImage
-          ? `one-column-masonry container`
-          : `multi-column-masonry container`
-      }
+      className={`container masonry
+       ${selectedImage ? `one-column-masonry` : `multi-column-masonry`}
+      `}
     >
+      {isLoading && <div>Loading</div>}
       {isSuccess &&
         data.map(
           ({
@@ -47,6 +79,7 @@ function ImagesGallery() {
             urls: Urls;
           }) => (
             <div
+              ref={imageRef}
               key={alt_description}
               onClick={() => {
                 setSelectedImage(urls.small);
@@ -96,6 +129,7 @@ function ImagesGallery() {
             </div>
           )
         )}
+      {/* <button onClick={() => handleRefetch(7)}>AABAB</button> */}
     </div>
   );
 }
