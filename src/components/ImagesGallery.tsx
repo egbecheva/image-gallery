@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {
+  useState,
+  useRef,
+  useLayoutEffect,
+  useMemo,
+  useEffect,
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import './ImagesGallery.css';
@@ -17,42 +23,84 @@ function ImagesGallery() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { data, isSuccess, isLoading } = useImageApi(currentPage);
   const [selectedImage, setSelectedImage] = useState<string>('');
-  const [images, setImages] = useState(data);
+  const [images, setImages] = useState([]);
 
-  console.log('images', images && images);
-
+  // Ref to the container with elements
   let containerRef = useRef(null);
-  let imageRef = useRef(null);
 
-  console.log(data);
+  function isElementInViewport(element: any) {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.bottom > 0 &&
+      rect.right > 0 &&
+      rect.left < window.innerWidth &&
+      rect.top < window.innerHeight
+    );
+  }
 
-  let options = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 1.0,
-  };
+  function findLastElementInViewport(elements: any) {
+    let lastElement = null;
 
-  useEffect(() => {
-    const callBack = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        entry.isIntersecting && setCurrentPage((i) => i + 1);
-        setImages([...images, ...data]);
-      });
-    };
-    const observer = new IntersectionObserver(callBack, options);
-
-    const observable = imageRef.current;
-
-    if (observable) {
-      observer.observe(observable);
+    for (let i = elements.length - 1; i >= 0; i--) {
+      if (isElementInViewport(elements[i])) {
+        lastElement = elements[i];
+        break;
+      }
     }
 
-    return () => {
-      if (observable) {
-        observer.unobserve(observable);
+    return lastElement;
+  }
+
+  const scrollTo = useMemo(() => {
+    // Find all elements in container which will be checked if are in view or not
+    //@ts-ignore
+    const nodeElements = containerRef.current?.querySelectorAll('img');
+    if (nodeElements && images) {
+      return findLastElementInViewport(nodeElements);
+    }
+
+    return null;
+  }, [currentPage]);
+
+  //TODO
+
+  // useLayoutEffect(() => {
+  //   //@ts-ignore
+  //   if (scrollTo) {
+  //     // Scroll to element with should be in view after rendering
+  //     //@ts-ignore
+  //     scrollTo.scrollIntoView();
+  //   }
+  //   // Scroll by height of nav
+  //   window.scrollBy(0, window.innerHeight);
+  // }, [scrollTo]);
+
+  useEffect(() => {
+    if (data) {
+      // Append the new data to the accumulated data list
+      //@ts-ignore
+      setImages((prevDataList) => [...prevDataList, ...data]);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    // Add a scroll event listener to detect when the user has scrolled to the bottom
+    function handleScroll() {
+      if (
+        //if user scrolled to  bottom
+        window.innerHeight + document.documentElement.scrollTop ===
+        document.documentElement.offsetHeight
+      ) {
+        // User scrolled to the bottom, increment the page
+        setCurrentPage(currentPage + 1);
       }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, [options]);
+  }, [currentPage]);
 
   const handleClose = (e: any) => {
     e.stopPropagation();
@@ -70,7 +118,7 @@ function ImagesGallery() {
     >
       {isLoading && <div>Loading</div>}
       {isSuccess &&
-        data.map(
+        images?.map(
           ({
             alt_description,
             urls,
@@ -79,8 +127,7 @@ function ImagesGallery() {
             urls: Urls;
           }) => (
             <div
-              ref={imageRef}
-              key={alt_description}
+              key={alt_description + uuidv4()}
               onClick={() => {
                 setSelectedImage(urls.small);
               }}
