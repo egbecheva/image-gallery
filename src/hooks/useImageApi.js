@@ -15,6 +15,8 @@ const fetchImages = async (currentPage) => {
 };
 
 const useImageApi = (currentPage) => {
-  return useQuery(['images', currentPage], () => fetchImages(currentPage));
+  return useQuery(['images', currentPage], () => fetchImages(currentPage), {
+    keepPreviousData: true,
+  });
 };
 export { useImageApi };
