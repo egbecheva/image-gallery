@@ -9,6 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import './ImagesGallery.css';
 import { useImageApi } from '../hooks/useImageApi';
+import Skeleton from '@mui/material/Skeleton';
 
 function ImagesGallery() {
   type Urls = {
@@ -40,10 +41,10 @@ function ImagesGallery() {
     // Add a scroll event listener to detect when the user has scrolled to the bottom
     function handleScroll() {
       if (
-        //if user scrolled to  bottom
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
+        window.innerHeight + window.pageYOffset >=
+        document.body.offsetHeight
       ) {
+        console.log('abba');
         // User scrolled to the bottom, increment the page
         setCurrentPage(currentPage + 1);
       }
@@ -69,7 +70,7 @@ function ImagesGallery() {
        ${selectedImage ? `one-column-masonry` : `multi-column-masonry`}
       `}
     >
-      {isLoading && <div>Loading</div>}
+      {isLoading && <Skeleton variant='rectangular' width={210} height={118} />}
       {isSuccess &&
         images?.map(
           ({
