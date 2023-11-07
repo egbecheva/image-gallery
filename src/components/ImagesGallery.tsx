@@ -44,7 +44,6 @@ function ImagesGallery() {
         window.innerHeight + window.pageYOffset >=
         document.body.offsetHeight
       ) {
-        console.log('abba');
         // User scrolled to the bottom, increment the page
         setCurrentPage(currentPage + 1);
       }
