@@ -27,7 +27,7 @@ function ImagesGallery() {
   const [images, setImages] = useState([]);
 
   // Ref to the container with elements
-  let containerRef = useRef(null);
+  let imagesList = useRef(null);
 
   useEffect(() => {
     if (data) {
@@ -38,22 +38,25 @@ function ImagesGallery() {
   }, [data]);
 
   useEffect(() => {
-    // Add a scroll event listener to detect when the user has scrolled to the bottom
-    function handleScroll() {
-      if (
-        window.innerHeight + window.pageYOffset >=
-        document.body.offsetHeight
-      ) {
-        // User scrolled to the bottom, increment the page
-        setCurrentPage(currentPage + 1);
-      }
-    }
+    const observer = new IntersectionObserver(
+      (imagesList, options) => {
+        const target = imagesList[(imagesList.length - 1) / 2];
 
-    window.addEventListener('scroll', handleScroll);
+        if (target.isIntersecting) {
+          setCurrentPage(currentPage + 1);
+        }
+      },
+      {
+        threshold: 0.1, // Example threshold value, change it as per your needs
+      }
+    );
+
+    imagesList.current && observer.observe(imagesList.current);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      imagesList.current && observer.unobserve(imagesList.current);
     };
-  }, [currentPage]);
+  }, [images]);
 
   const handleClose = (e: any) => {
     e.stopPropagation();
@@ -62,23 +65,24 @@ function ImagesGallery() {
 
   return (
     <div
-      ref={containerRef}
       data-testid='image-gallery-container'
       key={uuidv4()}
       className={`container masonry
        ${selectedImage ? `one-column-masonry` : `multi-column-masonry`}
       `}
     >
-      {isLoading && <Skeleton variant='rectangular' width={210} height={118} />}
       {isSuccess &&
         images?.map(
-          ({
-            alt_description,
-            urls,
-          }: {
-            alt_description: string;
-            urls: Urls;
-          }) => (
+          (
+            {
+              alt_description,
+              urls,
+            }: {
+              alt_description: string;
+              urls: Urls;
+            },
+            i
+          ) => (
             <div
               key={alt_description + uuidv4()}
               onClick={() => {
@@ -107,7 +111,7 @@ function ImagesGallery() {
                   </div>
                 </div>
                 <div className='image-container'>
-                  <div id='image-wrapper'>
+                  <div ref={imagesList} id='image-wrapper'>
                     <img
                       key={alt_description + uuidv4()}
                       alt={alt_description ? alt_description : ''}
@@ -129,7 +133,7 @@ function ImagesGallery() {
             </div>
           )
         )}
-      {/* <button onClick={() => handleRefetch(7)}>AABAB</button> */}
+      {isLoading && <Skeleton variant='rectangular' width={210} height={118} />}
     </div>
   );
 }
