@@ -1,47 +1,25 @@
-.multi-column-masonry{
-  column-count: 4;
-  column-gap:15px;
-}
-
-.container{
+ .container{
   margin:20px;
 }
 
-.one-column-masonry {
-  display:flex;
- justify-content: center;
-}
-
-
-/* Masonry on medium-sized screens */
-@media only screen and (max-width: 1023px) and (min-width: 768px) {
-  .masonry {
-    column-count: 3;
-  }
-}
-
-/* Masonry on small screens */
-@media only screen and (max-width: 767px) and (min-width: 540px) {
-  .masonry {
-    column-count: 2;
-  }
-}
-
-/* Masonry on small screens */
-@media only screen and (max-width: 539px)  {
-  .masonry {
-    column-count: 1;
-  }
-}
-
-.image-card {
-  display:flex;
-}
-
 .full-screen .back-button {
-cursor: pointer;
-justify-content: center;
+  cursor: pointer;
+  justify-content: center;
+  
+  }
 
+ 
+img { 
+  border-radius: 15px;
+}
+
+img:hover {
+  opacity: 0.5; 
+  background-color: rgba(255, 255, 255, 0.5); 
+}
+
+.item .back-button {
+  display: none;
 }
 
 .invisible {
@@ -54,52 +32,28 @@ justify-content: center;
   align-items: center;
 }
 
-.item .back-button {
-  display: none;
-}
+.item{
+  position:relative
+} 
 
-
-.alt-text{
+.alt-text {
   opacity:0;
-  color:white;
   position:absolute;
-  top:20px;
-  left:25px;
-  text-align: center;
+  left: 50%;
+  transform: translateX(-50%); /* Center the text horizontally */
 }
 
-.image-container:hover .alt-text{
-  color:white;
-  position:absolute;
-  top:20px;
-  left:25px;
-  opacity:1;
-  transition: 0.2s;
-}
+.item:hover  .alt-text{
+    opacity:100%;
+    font-weight:bold;
+    color:white;
+    position:absolute;
+    top:20px;
+ }
 
-.image-container{
-  position:relative;
-  display: inline-block;
-  width:100%;
-  overflow: hidden;
-}
+ .image-card{
+  display:flex;
+  align-items:center;
+  justify-content: center;
+ }
 
-
-img { /* Masonry bricks or child elements */
-  background-color: #fff;
-  width:100%;
-  margin-bottom: 12px;;
-}
-
- #image-wrapper:hover{
-  background: linear-gradient(180deg, #000 0%, #fff 100%);
-  transition: 0.2s;
-  cursor:pointer;
-
-}
-
-#image-wrapper:hover img{
-  opacity:0.6;
-  transition: 0.2s;
-
-}

@@ -10,6 +10,7 @@ import './App.css';
 import './ImagesGallery.css';
 import { useImageApi } from '../hooks/useImageApi';
 import Skeleton from '@mui/material/Skeleton';
+import Masonry from 'react-layout-masonry';
 
 function ImagesGallery() {
   type Urls = {
@@ -28,6 +29,7 @@ function ImagesGallery() {
 
   // Ref to the container with elements
   let imagesList = useRef(null);
+  let imgRef = useRef(null);
 
   useEffect(() => {
     if (data) {
@@ -68,72 +70,80 @@ function ImagesGallery() {
       data-testid='image-gallery-container'
       key={uuidv4()}
       className={`container masonry
-       ${selectedImage ? `one-column-masonry` : `multi-column-masonry`}
-      `}
+        ${selectedImage ? `one-column-masonry` : `multi-column-masonry`}
+        `}
     >
-      {isSuccess &&
-        images?.map(
-          (
-            {
-              alt_description,
-              urls,
-            }: {
-              alt_description: string;
-              urls: Urls;
-            },
-            i
-          ) => (
-            <div
-              key={alt_description + uuidv4()}
-              onClick={() => {
-                setSelectedImage(urls.small);
-              }}
-              data-testid='image-card-container'
-              className={
-                !selectedImage
-                  ? 'item'
-                  : selectedImage === urls.small
-                  ? 'full-screen'
-                  : 'invisible'
-              }
-            >
-              <div data-testid='image-card' className='image-card'>
-                <div className='button-container'>
-                  <div
-                    className='back-button'
-                    data-testid='back-button'
-                    style={{
-                      fontSize: '40px',
-                    }}
-                    onClick={handleClose}
-                  >
-                    &#8592;
+      <Masonry
+        columns={
+          !selectedImage
+            ? { 350: 1, 640: 2, 768: 3, 1024: 4, 1280: 5 }
+            : { 350: 1, 640: 1, 768: 1, 1024: 1, 1280: 1 }
+        }
+        gap={15}
+      >
+        {isSuccess &&
+          images?.map(
+            (
+              {
+                alt_description,
+                urls,
+              }: {
+                alt_description: string;
+                urls: Urls;
+              },
+              i
+            ) => (
+              <div
+                key={alt_description + uuidv4()}
+                onClick={() => {
+                  setSelectedImage(urls.small);
+                }}
+                data-testid='image-card-container'
+                className={
+                  !selectedImage
+                    ? 'item'
+                    : selectedImage === urls.small
+                    ? 'full-screen'
+                    : 'invisible'
+                }
+              >
+                <div data-testid='image-card' className='image-card'>
+                  <div className='button-container'>
+                    <div
+                      className='back-button'
+                      data-testid='back-button'
+                      style={{
+                        fontSize: '40px',
+                      }}
+                      onClick={handleClose}
+                    >
+                      &#8592;
+                    </div>
                   </div>
+                  <img
+                    ref={imagesList}
+                    key={alt_description + uuidv4()}
+                    alt={alt_description ? alt_description : ''}
+                    src={
+                      selectedImage === alt_description
+                        ? urls.small_s3
+                        : urls.small
+                    }
+                  />
                 </div>
-                <div className='image-container'>
-                  <div ref={imagesList} id='image-wrapper'>
-                    <img
-                      key={alt_description + uuidv4()}
-                      alt={alt_description ? alt_description : ''}
-                      src={
-                        selectedImage === alt_description
-                          ? urls.small
-                          : urls.small_s3
-                      }
-                    />
-                  </div>
-                  <div className='alt-text'>
-                    {typeof alt_description === 'object'
-                      ? null
-                      : alt_description?.charAt(0).toUpperCase() +
-                        alt_description?.slice(1)}
-                  </div>
+                <div className='alt-text'>
+                  {typeof alt_description === 'object'
+                    ? null
+                    : alt_description?.charAt(0).toUpperCase() +
+                      alt_description?.slice(1)}
                 </div>
               </div>
-            </div>
-          )
+            )
+          )}
+        {isLoading && (
+          <Skeleton variant='rectangular' width={210} height={118} />
         )}
-      {isLoading && <Skeleton variant='rectangular' width={210} height={118} />}
+      </Masonry>
     </div>
   );
 }
