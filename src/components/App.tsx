@@ -7,6 +7,7 @@ import NavBar from './NavBar';
 import ImagesGallery from './ImagesGallery';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Session } from '@supabase/gotrue-js/src/lib/types';
 
 const queryClient = new QueryClient();
 
@@ -16,8 +17,9 @@ const supabase = createClient(
 );
 
 function App() {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [userEmail, setUserEmail] = useState<string | undefined>('');
+  const [authChecked, setAuthChecked] = useState(false);
 
   const handleSignOut = () => {
     supabase.auth.signOut();
@@ -26,9 +28,10 @@ function App() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      //@ts-ignore
+      //@ts-ignore.
       setSession(session);
       setUserEmail(session?.user.email);
+      setAuthChecked(true);
     });
 
     const {
@@ -36,9 +39,14 @@ function App() {
     } = supabase.auth.onAuthStateChange((_event, session) => {
       //@ts-ignore
       setSession(session);
+      setAuthChecked(true);
     });
     return () => subscription.unsubscribe();
   }, []);
+
+  if (!authChecked) {
+    return <div>Loading...</div>;
+  }
 
   if (!session) {
     return (
@@ -67,20 +75,19 @@ function App() {
         </div>
       </div>
     );
-  }
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <div className='App'>
-        <ReactQueryDevtools />
-        <NavBar
-          handleSignOut={handleSignOut}
-          full_name={userEmail ? userEmail : ''}
-        />
-        <ImagesGallery />
-      </div>
-    </QueryClientProvider>
-  );
+  } else
+    return (
+      <QueryClientProvider client={queryClient}>
+        <div className='App'>
+          <ReactQueryDevtools />
+          <NavBar
+            handleSignOut={handleSignOut}
+            full_name={userEmail ? userEmail : ''}
+          />
+          <ImagesGallery />
+        </div>
+      </QueryClientProvider>
+    );
 }
 
 export default App;

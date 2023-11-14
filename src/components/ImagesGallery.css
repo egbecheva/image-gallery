@@ -1,16 +1,21 @@
- .container{
+.container {
   margin:20px;
 }
 
 .full-screen .back-button {
   cursor: pointer;
   justify-content: center;
-  
   }
+
+.full-screen img {
+  border-radius: 15px;
+  width:50%;
+}
 
  
 img { 
   border-radius: 15px;
+  width: 100%;
 }
 
 img:hover {
@@ -24,12 +29,6 @@ img:hover {
 
 .invisible {
   display:none
-}
-
-.full-screen .image-card {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .item{
@@ -51,9 +50,11 @@ img:hover {
     top:20px;
  }
 
- .image-card{
+ .full-screen .image-card{
   display:flex;
   align-items:center;
   justify-content: center;
+  border-radius: 15px;
+  width:100%;
  }
 
