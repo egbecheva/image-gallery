@@ -26,6 +26,23 @@ function App() {
     setSession(null);
   };
 
+  const insertFavorite = async () => {
+    try {
+      const { data, error } = await supabase.auth.updateUser({
+        data: {
+          favorite: 'new value',
+        },
+      });
+      if (error) {
+        console.error('Error updating data:', error);
+      } else {
+        console.log('Data updated successfully:', data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       //@ts-ignore.
@@ -41,11 +58,18 @@ function App() {
       setSession(session);
       setAuthChecked(true);
     });
+
     return () => subscription.unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (session !== null) {
+      insertFavorite();
+    }
+  }, []);
+
   if (!authChecked) {
-    return <div>Loading...</div>;
+    return <div></div>;
   }
 
   if (!session) {
