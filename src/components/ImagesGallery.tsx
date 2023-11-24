@@ -11,6 +11,8 @@ import './ImagesGallery.css';
 import { useImageApi } from '../hooks/useImageApi';
 import Skeleton from '@mui/material/Skeleton';
 import Masonry from 'react-layout-masonry';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 function ImagesGallery() {
   type Urls = {
@@ -26,7 +28,7 @@ function ImagesGallery() {
   const { data, isSuccess, isLoading } = useImageApi(currentPage);
   const [selectedImage, setSelectedImage] = useState<string>('');
   const [images, setImages] = useState([]);
-
+  const [favImages, setFavImages] = useState<string[]>([]);
   // Ref to the container with elements
   let imagesList = useRef(null);
   let imgRef = useRef(null);
@@ -65,6 +67,14 @@ function ImagesGallery() {
     setSelectedImage('');
   };
 
+  const handleFavorites = (event: any, id: string) => {
+    console.log(event);
+    event.stopPropagation();
+    console.log(id);
+
+    setFavImages((prevImagesIds) => [...prevImagesIds, id]);
+  };
+
   return (
     <div
       data-testid='image-gallery-container'
@@ -87,9 +97,11 @@ function ImagesGallery() {
               {
                 alt_description,
                 urls,
+                id,
               }: {
                 alt_description: string;
                 urls: Urls;
+                id: string;
               },
               i
             ) => (
@@ -130,6 +142,14 @@ function ImagesGallery() {
                         : urls.small
                     }
                   />
+                  {!favImages.includes(id) ? (
+                    <FavoriteBorderIcon
+                      onClick={(event) => handleFavorites(event, id)}
+                      className='heart-border'
+                    />
+                  ) : (
+                    <FavoriteIcon className='heart-border' />
+                  )}
                 </div>
                 <div className='alt-text'>
                   {typeof alt_description === 'object'

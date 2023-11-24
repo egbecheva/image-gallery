@@ -16,11 +16,28 @@
 img { 
   border-radius: 15px;
   width: 100%;
+  position:relative
+}
+
+.heart-border {
+  color:white;
+  position:absolute;
+  top:20px;
+  right:20px;
+  opacity:0
 }
 
 img:hover {
   opacity: 0.5; 
   background-color: rgba(255, 255, 255, 0.5); 
+}
+
+.item:hover .heart-border {
+  opacity: 100%;
+}
+
+.red-heart-border{
+ color:red;
 }
 
 .item .back-button {
@@ -57,4 +74,6 @@ img:hover {
   border-radius: 15px;
   width:100%;
  }
+
+
 

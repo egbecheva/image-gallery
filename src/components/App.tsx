@@ -30,7 +30,7 @@ function App() {
     try {
       const { data, error } = await supabase.auth.updateUser({
         data: {
-          favorite: 'new value',
+          fav_images_id: ['new value'],
         },
       });
       if (error) {
