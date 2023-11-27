@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../services/supabase.js';
+import { updateFavorite, fetchFavorite } from '../services/userService.js';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import './App.css';
@@ -11,11 +12,6 @@ import { Session } from '@supabase/gotrue-js/src/lib/types';
 
 const queryClient = new QueryClient();
 
-const supabase = createClient(
-  'https://farwxdneeuusnodhhuvb.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhcnd4ZG5lZXV1c25vZGhodXZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODA2Nzc3MDIsImV4cCI6MTk5NjI1MzcwMn0.B-crC-fdDpSBog7sZsbyfobs0HaRhJ8xN91YSRRx1oI'
-);
-
 function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [userEmail, setUserEmail] = useState<string | undefined>('');
@@ -24,23 +20,6 @@ function App() {
   const handleSignOut = () => {
     supabase.auth.signOut();
     setSession(null);
-  };
-
-  const insertFavorite = async () => {
-    try {
-      const { data, error } = await supabase.auth.updateUser({
-        data: {
-          fav_images_id: ['new value'],
-        },
-      });
-      if (error) {
-        console.error('Error updating data:', error);
-      } else {
-        console.log('Data updated successfully:', data);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
   };
 
   useEffect(() => {
@@ -64,7 +43,10 @@ function App() {
 
   useEffect(() => {
     if (session !== null) {
-      insertFavorite();
+      console.log(
+        updateFavorite(session.user.id, ['666', '365', '222', '8965'])
+      );
+      console.log(fetchFavorite(session.user.id));
     }
   }, []);
 

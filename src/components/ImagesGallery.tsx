@@ -33,6 +33,8 @@ function ImagesGallery() {
   let imagesList = useRef(null);
   let imgRef = useRef(null);
 
+  console.log(favImages);
+
   useEffect(() => {
     if (data) {
       // Append the new data to the accumulated data list
@@ -68,9 +70,7 @@ function ImagesGallery() {
   };
 
   const handleFavorites = (event: any, id: string) => {
-    console.log(event);
     event.stopPropagation();
-    console.log(id);
 
     setFavImages((prevImagesIds) => [...prevImagesIds, id]);
   };
