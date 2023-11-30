@@ -20,13 +20,13 @@ function App() {
   const handleSignOut = () => {
     supabase.auth.signOut();
     setSession(null);
+    setUserEmail('');
   };
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       //@ts-ignore.
       setSession(session);
-      setUserEmail(session?.user.email);
       setAuthChecked(true);
     });
 
@@ -35,6 +35,7 @@ function App() {
     } = supabase.auth.onAuthStateChange((_event, session) => {
       //@ts-ignore
       setSession(session);
+      setUserEmail(session?.user.email);
       setAuthChecked(true);
     });
 
@@ -55,18 +56,18 @@ function App() {
               appearance={{ theme: ThemeSupa }}
               providers={['github']}
               //@ts-ignore
-              onAuthSuccess={async (event, session) => {
-                const { user } = session;
-                const { data, error } = await supabase
-                  .from('users')
-                  .update({ full_name: user.user_metadata.full_name })
-                  .eq('id', user.id);
-                if (error) {
-                  console.log(error);
-                } else {
-                  console.log(data);
-                }
-              }}
+              // onAuthSuccess={async (event, session) => {
+              // const { user } = session;
+              // const { data, error } = await supabase
+              //   .from('users')
+              //   .update({ full_name: user.user_metadata.full_name })
+              //   .eq('id', user.id);
+              // if (error) {
+              //   console.log(error);
+              // } else {
+              //   console.log(data);
+              // }
+              // }}
             />
           </div>
         </div>
