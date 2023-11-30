@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../services/supabase.js';
-import { updateFavorite, fetchFavorite } from '../services/userService.js';
+import { updateFavorite, fetchFavorites } from '../services/userService.js';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import './App.css';
@@ -39,15 +39,6 @@ function App() {
     });
 
     return () => subscription.unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (session !== null) {
-      console.log(
-        updateFavorite(session.user.id, ['666', '365', '222', '8965'])
-      );
-      console.log(fetchFavorite(session.user.id));
-    }
   }, []);
 
   if (!authChecked) {
@@ -90,7 +81,11 @@ function App() {
             handleSignOut={handleSignOut}
             full_name={userEmail ? userEmail : ''}
           />
-          <ImagesGallery />
+          <ImagesGallery
+            currentSession={session}
+            updateFavorite={updateFavorite}
+            fetchFavorites={fetchFavorites}
+          />
         </div>
       </QueryClientProvider>
     );

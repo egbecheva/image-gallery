@@ -1,24 +1,27 @@
 import { supabase } from './supabase';
 
-const fetchFavorite = async (v) => {
+const fetchFavorites = async (userId) => {
   try {
-    const { data, error } = await supabase.from('user_favorites').select('*');
+    const { data, error } = await supabase
+      .from('user_favorites')
+      .select('*')
+      .eq('user_id', userId);
     if (error) {
       console.log(error);
     } else {
-      console.log('fetched ok: ', data);
+      return data;
     }
   } catch (e) {
     console.log(e);
   }
 };
 
-const updateFavorite = async (userId, imageIdArray) => {
+const updateFavorite = async (userId, imageData) => {
   try {
     const { data, error } = await supabase
       .from('user_favorites')
       .upsert(
-        { user_id: userId, image_id: imageIdArray },
+        { user_id: userId, image_data: imageData },
         { onConflict: 'user_id' }
       )
       .select();
@@ -32,4 +35,4 @@ const updateFavorite = async (userId, imageIdArray) => {
   }
 };
 
-export { updateFavorite, fetchFavorite };
+export { updateFavorite, fetchFavorites };

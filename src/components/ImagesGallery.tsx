@@ -13,27 +13,46 @@ import Skeleton from '@mui/material/Skeleton';
 import Masonry from 'react-layout-masonry';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Session } from '@supabase/gotrue-js/src/lib/types';
 
-function ImagesGallery() {
-  type Urls = {
-    raw: string;
-    full: string;
-    regular: string;
-    small: string;
-    thumb: string;
-    small_s3: string;
-  };
+type ImagesGalleryProps = {
+  currentSession: Session;
+  updateFavorite: (userId: string, imageData: object) => void;
+  fetchFavorites: (userId: string) => Promise<
+    | {
+        [x: string]: any;
+      }[]
+    | undefined
+  >;
+};
 
+type Urls = {
+  raw: string;
+  full: string;
+  regular: string;
+  small: string;
+  thumb: string;
+  small_s3: string;
+};
+
+function ImagesGallery({
+  currentSession,
+  fetchFavorites,
+  updateFavorite,
+}: ImagesGalleryProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const { data, isSuccess, isLoading } = useImageApi(currentPage);
   const [selectedImage, setSelectedImage] = useState<string>('');
   const [images, setImages] = useState([]);
-  const [favImages, setFavImages] = useState<string[]>([]);
+  const [favImages, setFavImages] = useState<any[]>([]);
   // Ref to the container with elements
   let imagesList = useRef(null);
-  let imgRef = useRef(null);
 
-  console.log(favImages);
+  useEffect(() => {
+    fetchFavorites(currentSession.user.id).then((data: any) =>
+      setFavImages(data[0].image_data)
+    );
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -69,10 +88,19 @@ function ImagesGallery() {
     setSelectedImage('');
   };
 
-  const handleFavorites = (event: any, id: string) => {
+  const handleAddFavorites = (event: any, id: string): void => {
     event.stopPropagation();
-
     setFavImages((prevImagesIds) => [...prevImagesIds, id]);
+    updateFavorite(currentSession.user.id, [...favImages, id]);
+  };
+
+  const handleRemoveFavorites = (event: any, id: string): void => {
+    event.stopPropagation();
+    setFavImages((prevImagesIds) => prevImagesIds.filter((el) => el !== id));
+    updateFavorite(
+      currentSession.user.id,
+      favImages.filter((el) => el !== id)
+    );
   };
 
   return (
@@ -144,11 +172,14 @@ function ImagesGallery() {
                   />
                   {!favImages.includes(id) ? (
                     <FavoriteBorderIcon
-                      onClick={(event) => handleFavorites(event, id)}
-                      className='heart-border'
+                      className='heart'
+                      onClick={(event) => handleAddFavorites(event, id)}
                     />
                   ) : (
-                    <FavoriteIcon className='heart-border' />
+                    <FavoriteIcon
+                      className='heart'
+                      onClick={(event) => handleRemoveFavorites(event, id)}
+                    />
                   )}
                 </div>
                 <div className='alt-text'>
