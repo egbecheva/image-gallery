@@ -9,6 +9,10 @@ import ImagesGallery from './ImagesGallery';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Session } from '@supabase/gotrue-js/src/lib/types';
+import { CopilotProvider } from '@copilotkit/react-core';
+import { CopilotSidebarUIProvider } from '@copilotkit/react-ui';
+import '@copilotkit/react-textarea/styles.css'; // also import this if you want to use the CopilotTextarea component
+import '@copilotkit/react-ui/styles.css'; // also import this if you want to use the chatbot component
 
 const queryClient = new QueryClient();
 
@@ -75,20 +79,24 @@ function App() {
     );
   } else
     return (
-      <QueryClientProvider client={queryClient}>
-        <div className='App'>
-          <ReactQueryDevtools />
-          <NavBar
-            handleSignOut={handleSignOut}
-            full_name={userEmail ? userEmail : ''}
-          />
-          <ImagesGallery
-            currentSession={session}
-            updateFavorite={updateFavorite}
-            fetchFavorites={fetchFavorites}
-          />
-        </div>
-      </QueryClientProvider>
+      <CopilotProvider chatApiEndpoint='/path_to_copilotkit_endpoint/see_below'>
+        <CopilotSidebarUIProvider>
+          <QueryClientProvider client={queryClient}>
+            <div className='App'>
+              <ReactQueryDevtools />
+              <NavBar
+                handleSignOut={handleSignOut}
+                full_name={userEmail ? userEmail : ''}
+              />
+              <ImagesGallery
+                currentSession={session}
+                updateFavorite={updateFavorite}
+                fetchFavorites={fetchFavorites}
+              />
+            </div>
+          </QueryClientProvider>
+        </CopilotSidebarUIProvider>
+      </CopilotProvider>
     );
 }
 
