@@ -6,8 +6,8 @@ import React, {
   useEffect,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import './App.css';
-import './ImagesGallery.css';
+// import './App.css';
+// import './ImagesGallery.css';
 import { useImageApi } from '../hooks/useImageApi';
 import Skeleton from '@mui/material/Skeleton';
 import Masonry from 'react-layout-masonry';
@@ -57,8 +57,11 @@ function ImagesGallery({
   useEffect(() => {
     if (data) {
       // Append the new data to the accumulated data list
-      //@ts-ignore
-      setImages((prevDataList) => [...prevDataList, ...data]);
+      if (Array.isArray(data)) {
+        //@ts-ignore
+        setImages((prevDataList) => [...prevDataList, ...data]);
+      }
+      // setImages((prevDataList) => [...prevDataList, ...data]);
     }
   }, [data]);
 
