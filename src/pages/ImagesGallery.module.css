@@ -2,21 +2,21 @@
   margin: 20px;
 }
 
-.full-screen .back-button {
+.fullScreen .back-button {
   cursor: pointer;
   justify-content: center;
 }
 
-.full-screen img {
+.fullScreen img {
   border-radius: 15px;
   width: 50%;
 }
 
-img {
+/* img {
   border-radius: 15px;
   width: 100%;
   position: relative;
-}
+} */
 
 .heart {
   color: white;
@@ -26,10 +26,10 @@ img {
   opacity: 0;
 }
 
-img:hover {
+/* img:hover {
   opacity: 0.5;
   background-color: rgba(255, 255, 255, 0.5);
-}
+} */
 
 .item:hover .heart {
   opacity: 100%;
@@ -51,14 +51,14 @@ img:hover {
   position: relative;
 }
 
-.alt-text {
+.altText {
   opacity: 0;
   position: absolute;
   left: 50%;
   transform: translateX(-50%); /* Center the text horizontally */
 }
 
-.item:hover .alt-text {
+.item:hover .altText {
   opacity: 100%;
   font-weight: bold;
   color: white;
@@ -66,7 +66,7 @@ img:hover {
   top: 20px;
 }
 
-.full-screen .image-card {
+.fullScreen .imageCard {
   display: flex;
   align-items: center;
   justify-content: center;

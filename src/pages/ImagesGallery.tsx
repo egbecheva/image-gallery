@@ -8,6 +8,7 @@ import React, {
 import { v4 as uuidv4 } from 'uuid';
 // import './App.css';
 // import './ImagesGallery.css';
+import styles from './ImagesGallery.module.css';
 import { useImageApi } from '../hooks/useImageApi';
 import Skeleton from '@mui/material/Skeleton';
 import Masonry from 'react-layout-masonry';
@@ -110,9 +111,7 @@ function ImagesGallery({
     <div
       data-testid='image-gallery-container'
       key={uuidv4()}
-      className={`container masonry
-        ${selectedImage ? `one-column-masonry` : `multi-column-masonry`}
-        `}
+      className={`${styles.container} ${styles.masonry}`}
     >
       <Masonry
         columns={
@@ -144,16 +143,16 @@ function ImagesGallery({
                 data-testid='image-card-container'
                 className={
                   !selectedImage
-                    ? 'item'
+                    ? `${styles.item}`
                     : selectedImage === urls.small
-                    ? 'full-screen'
-                    : 'invisible'
+                    ? `${styles.fullScreen}`
+                    : `${styles.invisible}`
                 }
               >
-                <div data-testid='image-card' className='image-card'>
-                  <div className='button-container'>
+                <div data-testid='image-card' className={`${styles.imageCard}`}>
+                  <div>
                     <div
-                      className='back-button'
+                      className={`${styles.backButton}`}
                       data-testid='back-button'
                       style={{
                         fontSize: '40px',
@@ -175,17 +174,17 @@ function ImagesGallery({
                   />
                   {!favImages.includes(id) ? (
                     <FavoriteBorderIcon
-                      className='heart'
+                      className={`${styles.heart}`}
                       onClick={(event) => handleAddFavorites(event, id)}
                     />
                   ) : (
                     <FavoriteIcon
-                      className='heart'
+                      className={`${styles.heart}`}
                       onClick={(event) => handleRemoveFavorites(event, id)}
                     />
                   )}
                 </div>
-                <div className='alt-text'>
+                <div className={`${styles.altText}`}>
                   {typeof alt_description === 'object'
                     ? null
                     : alt_description?.charAt(0).toUpperCase() +
