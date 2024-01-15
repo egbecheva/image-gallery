@@ -1,9 +1,9 @@
-a {
+.a {
   text-decoration: none;
   color:lightslategray
 }
 
-button {
+.button {
   margin-right: 30px;
   font-weight:bold;
   font-size: medium;
@@ -12,12 +12,12 @@ button {
   padding:10px;
 }
 
-button:hover{
+.button:hover{
   background-color:#efefef;
   border-radius:10px;
 }
 
-nav {
+.nav {
   padding:30px;
   display:flex;
   justify-content:space-between

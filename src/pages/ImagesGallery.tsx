@@ -164,6 +164,7 @@ function ImagesGallery({
                   </div>
                   <img
                     ref={imagesList}
+                    className={`${styles.img}`}
                     key={alt_description + uuidv4()}
                     alt={alt_description ? alt_description : ''}
                     src={

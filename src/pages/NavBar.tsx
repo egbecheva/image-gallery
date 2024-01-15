@@ -1,5 +1,6 @@
 import React from 'react';
 // import './NavBar.css';
+import styles from './NavBar.module.css';
 
 type NavBarProps = {
   full_name: string;
@@ -8,21 +9,25 @@ type NavBarProps = {
 
 function NavBar({ full_name, handleSignOut }: NavBarProps) {
   return (
-    <nav>
+    <nav className={`${styles.nav}`}>
       <div>
-        <button>
+        <button className={`${styles.button}`}>
           <a href='/'>1 - 99 likes</a>
         </button>
-        <button>
-          <a href='/'>100 - 500 likes</a>
+        <button className={`${styles.button}`}>
+          <a className={`${styles.a}`} href='/'>
+            100 - 500 likes
+          </a>
         </button>
-        <button>
+        <button className={`${styles.button}`}>
           <a href='/'>500+ likes</a>
         </button>
       </div>
       <div>
         <span>{full_name && full_name}</span>
-        <button onClick={handleSignOut}>Sign out</button>
+        <button className={`${styles.button}`} onClick={handleSignOut}>
+          Sign out
+        </button>
       </div>
     </nav>
   );

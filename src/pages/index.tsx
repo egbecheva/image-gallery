@@ -1,10 +1,13 @@
 import React from 'react';
 import App from './App';
+import styles from './index.module.css';
 
 function HomePage() {
   return (
     <React.StrictMode>
-      <App />
+      <div className={`${styles.body}`}>
+        <App />
+      </div>
     </React.StrictMode>
   );
 }
