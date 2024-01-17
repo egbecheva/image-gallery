@@ -1,6 +1,6 @@
 import React from 'react';
 // import './NavBar.css';
-import styles from './NavBar.module.css';
+import styles from '../styles/NavBar.module.css';
 
 type NavBarProps = {
   full_name: string;

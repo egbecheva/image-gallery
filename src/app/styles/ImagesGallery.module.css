@@ -73,3 +73,9 @@
   border-radius: 15px;
   width: 100%;
 }
+
+.flexCenterHorizontal{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

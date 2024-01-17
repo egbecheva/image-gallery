@@ -1,4 +1,4 @@
-import { useImageApi } from '../hooks/useImageApi';
+import { useImageApi } from '../../hooks/useImageApi';
 import {
   fireEvent,
   screen,
@@ -8,7 +8,7 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ImagesGallery from './ImagesGallery';
+import ImagesGallery from '../components/ImagesGallery';
 
 afterEach(cleanup);
 

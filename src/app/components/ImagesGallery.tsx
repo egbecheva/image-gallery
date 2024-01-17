@@ -8,8 +8,8 @@ import React, {
 import { v4 as uuidv4 } from 'uuid';
 // import './App.css';
 // import './ImagesGallery.css';
-import styles from './ImagesGallery.module.css';
-import { useImageApi } from '../hooks/useImageApi';
+import styles from '../styles/ImagesGallery.module.css';
+import { useImageApi } from '../../hooks/useImageApi';
 import Skeleton from '@mui/material/Skeleton';
 import Masonry from 'react-layout-masonry';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -149,10 +149,10 @@ function ImagesGallery({
                     : `${styles.invisible}`
                 }
               >
-                <div data-testid='image-card' className={`${styles.imageCard}`}>
+                <div data-testid='image-card' className={styles.imageCard}>
                   <div>
                     <div
-                      className={`${styles.backButton}`}
+                      className={styles.backButton}
                       data-testid='back-button'
                       style={{
                         fontSize: '40px',
@@ -164,7 +164,7 @@ function ImagesGallery({
                   </div>
                   <img
                     ref={imagesList}
-                    className={`${styles.img}`}
+                    className={styles.img}
                     key={alt_description + uuidv4()}
                     alt={alt_description ? alt_description : ''}
                     src={
@@ -180,12 +180,12 @@ function ImagesGallery({
                     />
                   ) : (
                     <FavoriteIcon
-                      className={`${styles.heart}`}
+                      className={styles.heart}
                       onClick={(event) => handleRemoveFavorites(event, id)}
                     />
                   )}
                 </div>
-                <div className={`${styles.altText}`}>
+                <div className={styles.altText}>
                   {typeof alt_description === 'object'
                     ? null
                     : alt_description?.charAt(0).toUpperCase() +
@@ -198,6 +198,12 @@ function ImagesGallery({
           <Skeleton variant='rectangular' width={210} height={118} />
         )}
       </Masonry>
+      <button
+        className={styles.flexCenterHorizontal}
+        onClick={() => setCurrentPage((prev) => prev + 1)}
+      >
+        Load more
+      </button>
     </div>
   );
 }
